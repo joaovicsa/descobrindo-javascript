@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuários de Teste via REST</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .user-card {
+            margin: 10px;
+            flex: 1;
+            text-align: center;
+        }
+
+        .user-card img {
+            width: 95%;
+        }
+
+        .user-card .card-text {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 0.5em;
+        }
+
+        .card-body {
+            width: 100%;
+            text-align: start;
+            padding-left: 2em;
+        }
+
+        h4 {
+            color: white;
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body class="container bg-warning">
+    <h1>Usuários de Teste via REST</h1>
+    <h4>Os usuários deste exemplo são fornecidos pela API de testes reqres.in.</h4>
+    <div id="usuarios" class="row">
+        <div class="user-card col-sm-4" v-for="(user, index) in users" :key="index">
+            <div class="card">
+                <img :src="user.avatar" class="card-img-top" alt="User Avatar">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">{{user.first_name}} {{user.last_name}}</h5>
+                    <p class="card-text">{{user.email}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#usuarios',
+            data: {
+                users: []
+            },
+            mounted: function () {
+                this.loadUsers();
+            },            methods: {
+                loadUsers: function () {
+                    $.get('https://reqres.in/api/users?per_page=3', function (data) {
+                        app.users = data.data;
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+</html>
